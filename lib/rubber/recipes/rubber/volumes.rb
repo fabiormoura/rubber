@@ -231,7 +231,7 @@ namespace :rubber do
 
   def setup_raid_volume(ic, raid_spec, create=false, raid_volume_list=nil)
     if create
-      mdadm_init = "yes | mdadm --create #{raid_spec['device']} --metadata=1.1 --level #{raid_spec['raid_level']} -c256 --raid-devices #{raid_spec['source_devices'].size} #{raid_spec['source_devices'].sort.join(' ')}"
+      mdadm_init = "yes | mdadm --create #{raid_spec['device']} --metadata=1.1 --level #{raid_spec['raid_level']} -c256 --raid-devices #{raid_spec['source_devices'].size} #{raid_spec['source_devices'].sort.join(' ')} && blockdev --setra 65536 #{raid_spec['device']}"
     else
       mdadm_init = "yes | mdadm --assemble #{raid_spec['device']} #{raid_spec['source_devices'].sort.join(' ')}"
     end
